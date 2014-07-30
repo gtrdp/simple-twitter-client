@@ -4,10 +4,10 @@ import argparse
 
 #Setting up Twitter API
 api = twitter.Api(
- consumer_key='XXXXXXXXXXXXXXXXXXXXXX',
- consumer_secret='XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
- access_token_key='XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
- access_token_secret='XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+ consumer_key='isWtc9n0npYILNsVM62gMQgrD',
+ consumer_secret='MHJt9XWFIXQpUrVR8WH0ynxvQoeF3eheOBxWTsFfQ4uj6jfizG',
+ access_token_key='67882386-R5EFGJ91yFd2vh4B4XSyKUzuEKCKULbsklHybz2p0',
+ access_token_secret='Ua6ddPcl5hO0EMYK4bIQ2f4S7VVikoTuOE2WAWoBFjWsZ'
  )
 
 #Parsing the commands
@@ -27,52 +27,54 @@ sp_keyword.add_argument('term', type=str, help='A query for searching Twitter; m
 
 #Parse the Args
 args = parser.parse_args()
-if args.command != '':
-#Custom looping so we can search more than 100 tweets
- tweetID = ''
- i = int(round(args.count -51, -2)) / 100 + 1
- for x in range (0, i):
+# command = 'adventure'
 
- #Perform Find
- if args.command == 'adventure':
- print '------Searching Tweets about adventure ' + str(x * 100) + '/' + str(args.count) + '------'
- search = api.GetSearch(term='"adventure" OR "space travel" OR "deep sea diving" OR "exploring"', lang='en', result_type='recent', count=(args.count - 100 * x), max_id=tweetID)
+if command != '':
+	#Custom looping so we can search more than 100 tweets
+	tweetID = ''
+	i = int(round(60 -51, -2)) / 100 + 1
+	for x in range (0, i):
 
- elif args.command == 'myhob':
- print '------Searching Tweets about my hobbies ' + str(x * 100) + '/' + str(args.count) + '------'
- search = api.GetSearch(term='"computers" OR "python" OR "Japanese" OR "Bento"', lang='en', result_type='recent', count=(args.count - 100 * x), max_id=tweetID)
+		#Perform Find
+		if command == 'adventure':
+			print '------Searching Tweets about adventure ' + str(x * 100) + '/' + str(60) + '------'
+			search = api.GetSearch(term='"adventure" OR "space travel" OR "deep sea diving" OR "exploring"', lang='en', result_type='recent', count=(60 - 100 * x), max_id=tweetID)
 
- elif args.command == 'search':
- print '------Searching Tweets using \"' + args.term + '\"' + str(x * 100) + '/' + str(args.count) + '------'
- search = api.GetSearch(term=args.term, lang='en', result_type='recent', count=(args.count - 100 * x), max_id=tweetID)
+		elif command == 'myhob':
+			print '------Searching Tweets about my hobbies ' + str(x * 100) + '/' + str(60) + '------'
+			search = api.GetSearch(term='"computers" OR "python" OR "Japanese" OR "Bento"', lang='en', result_type='recent', count=(60 - 100 * x), max_id=tweetID)
 
- #Filter Results
- for t in search:
- #Filter the results by default
- if args.removefilters == False:
- if (
- #Filters Twitter Account
- t.user.screen_name != 'jerkface' and
- t.user.screen_name != 'notniceguy' and
- t.user.screen_name != 'spambot' and
- t.user.screen_name != 'junkbot' and
- #Filter Retweets
- 'RT @' not in t.text and
- #Filter Direct Tweets
- (args.removedirect == False or '@mytwittername' not in t.text) and
- #Filter out words
- 'sex' not in t.text):
- print ''
- print t.user.screen_name + ' (' + t.created_at + ')'
- #Add the .encode to force encoding
- print t.text.encode('utf-8')
- print ''
+		elif command == 'search':
+			print '------Searching Tweets using \"' + args.term + '\"' + str(x * 100) + '/' + str(60) + '------'
+			search = api.GetSearch(term=args.term, lang='en', result_type='recent', count=(60 - 100 * x), max_id=tweetID)
 
- else:
- print ''
- print t.user.screen_name
- print t.created_at
- print t.text.encode('utf-8')
- print ''
-#Save the this tweet ID
- tweetID = t.id
+	#Filter Results
+	for t in search:
+		#Filter the results by default
+		if args.removefilters == False:
+			if (
+			#Filters Twitter Account
+			t.user.screen_name != 'jerkface' and
+			t.user.screen_name != 'notniceguy' and
+			t.user.screen_name != 'spambot' and
+			t.user.screen_name != 'junkbot' and
+			#Filter Retweets
+			'RT @' not in t.text and
+			#Filter Direct Tweets
+			(args.removedirect == False or '@mytwittername' not in t.text) and
+			#Filter out words
+			'sex' not in t.text):
+				print ''
+				print t.user.screen_name + ' (' + t.created_at + ')'
+				#Add the .encode to force encoding
+				print t.text.encode('utf-8')
+				print ''
+
+		else:
+			print ''
+			print t.user.screen_name
+			print t.created_at
+			print t.text.encode('utf-8')
+			print ''
+			#Save the this tweet ID
+			tweetID = t.id

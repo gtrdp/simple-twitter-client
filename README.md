@@ -6,6 +6,9 @@ Installation Requirements
 -------------------------
 - Firstly get your own API keys from [twitter's dev page](https://dev.twitter.com/user/login).
 - Install [Python Twitter](https://github.com/bear/python-twitter), A Python wrapper around the Twitter API.
+
+		$ pip install python-twitter
+
 - Start coding.
 
 Useful Links
