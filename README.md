@@ -19,6 +19,8 @@ Development Log
 ---------------
 *Wed Jul 30 11:10:19 WIB 2014*
 - Initiated the project.
+- Got a copy of python twitter sample code.
+- Cloning the user interface.
 
 License
 -------
