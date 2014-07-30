@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="assets/favicon.ico">
+
+    <title>Antar Muka Penapis Teks</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="assets/css/jumbotron-narrow.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header">
+        <h3 class="text-muted">Penapis Teks</h3>
+      </div>
+
+      <div  align="center">
+        <h1>Masukkan URL yang Ingin Ditapis</h1>
+        <input type="text" class="form-control input-lg" id="url-tapis" name="url-tapis" placeHolder="http://www.example.com/" value="http://">
+        <br>
+        <button class="btn btn-lg btn-success" href="#" role="button" id="tapis">Tapis</button>
+      </div>
+      
+      <div class="row marketing" id="loader" align="center">
+        <div class="col-lg-12"><img src="assets/loader.gif" alt="loading..." width="200"></div>        
+      </div>
+      <div class="row marketing" id="hasil">
+        <div class="col-lg-6">
+          <h4>Hasil</h4>
+          <div class="alert alert-success" align="center" id="positif">
+            <strong style="font-size: 100px"><span class="glyphicon glyphicon-plus"></span></strong>
+            <br>
+            Situs aman.
+          </div>
+          <div class="alert alert-danger" align="center" id="negatif">
+            <strong style="font-size: 100px"><span class="glyphicon glyphicon-minus"></span></strong>
+            <br>
+            Situs mengandung konten negatif.
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <h4>Poin</h4>
+          <div class="alert alert-info" align="center">
+            <strong style="font-size: 100px" id="poin-kalkulasi">0.7</strong>
+            <br>
+            Hasil kalkulasi.
+          </div>
+        </div>
+      </div>
+      
+      <br>
+      <div class="footer">
+        <p>&copy; Zainil Abidin &amp; Guntur Dharma Putra 2014</p>
+      </div>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('#positif').hide();
+        $('#negatif').hide();
+        $('#hasil').hide();
+        $('#loader').hide();
+
+        $('#tapis').click(function(){
+          var url = $('#url-tapis').val();
+          if(url == '')
+            alert('Harap isi URL terlebih dahulu');
+          else{
+            $('#positif').hide();
+            $('#negatif').hide();
+            $('#hasil').hide();
+            $('#loader').show();
+
+            $.get('processor.php?url=' + url, function(data, status){
+              if(data.length != 6){
+                $('#loader').hide();
+                alert('Terjadi kesalahan pada server.');
+              }else{
+                var decision = data.substring(0,1);
+                var score = data.substring(1,5);
+
+                $('#poin-kalkulasi').html(score);
+
+                if(decision == '-')
+                  $('#positif').show();
+                else
+                  $('#negatif').show();
+
+                $('#loader').hide();
+                $('#hasil').show();
+              }
+            });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
